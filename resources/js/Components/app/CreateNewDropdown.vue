@@ -1,5 +1,5 @@
 <template>
-    <Dropdown label="Create New">
+    <Dropdown label="Create New" class="w-full">
         <template v-slot:icon>
             <PlusCircleIcon
                 class="-mr-1 ml-2 h-5 w-5 text-indigo-700"

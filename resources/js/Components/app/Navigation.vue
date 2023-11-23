@@ -10,19 +10,19 @@ const page = usePage();
 const navLinks = [
     {
         name: "My Files",
-        href: "/dashboard",
+        href: "myFiles",
     },
     {
         name: "Shared with me",
-        href: "",
+        href: "dashboard",
     },
     {
         name: "Shared by me",
-        href: "",
+        href: "dashboard",
     },
     {
         name: "Trash",
-        href: "",
+        href: "dashboard",
     },
 ];
 </script>
@@ -30,7 +30,7 @@ const navLinks = [
 <template>
     <nav class="min-w-[200px]">
         <div class="h-[80px] px-3 flex items-center gap-3">
-            <Link href="/" class="flex items-center gap-2">
+            <Link :href="route('myFiles')" class="flex items-center gap-2">
                 <ApplicationLogo
                     class="block h-9 w-auto fill-current text-gray-800"
                 />
@@ -44,8 +44,8 @@ const navLinks = [
                 <NavLink
                     v-for="link in navLinks"
                     :key="link.name"
-                    :href="link.href"
-                    :active="link.href === $page.url"
+                    :href="route(link.href)"
+                    :active="link.href == route().current()"
                 >
                     {{ link.name }}
                 </NavLink>
