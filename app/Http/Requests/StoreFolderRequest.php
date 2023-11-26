@@ -22,7 +22,7 @@ class StoreFolderRequest extends ParenIdBaseRequest
                 'name' => [
                     'required', 'string', 'max:255',
                     Rule::unique(File::class, 'name')
-                        ->where('created-by', Auth::user()->id)
+                        ->where('created_by', Auth::user()->id)
                         ->where('parent_id', $this->parent_id)
                         ->whereNull('created_at')
                 ],

@@ -16,15 +16,17 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['show', 'hide', 'close']);
 
 watch(
     () => props.show,
     () => {
         if (props.show) {
             document.body.style.overflow = 'hidden';
+            emit('show');
         } else {
             document.body.style.overflow = null;
+            emit('hide');
         }
     }
 );
@@ -86,7 +88,7 @@ const maxWidthClass = computed(() => {
                 >
                     <div
                         v-show="show"
-                        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
+                        class="my-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:mx-auto"
                         :class="maxWidthClass"
                     >
                         <slot v-if="show" />
