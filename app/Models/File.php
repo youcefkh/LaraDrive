@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Kalnoy\Nestedset\NodeTrait;
 use App\Traits\HasCreatorAndUpdater;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class File extends Model
@@ -34,6 +36,15 @@ class File extends Model
     public function isOwnedBy($userId): bool
     {
         return $this->created_by == $userId;
+    }
+
+    protected function owner(): Attribute
+    {
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                return $attributes['created_by'] == Auth::user()->id ? "Me" : $this->user->name;
+            }
+        );
     }
 
     public function isRoot()

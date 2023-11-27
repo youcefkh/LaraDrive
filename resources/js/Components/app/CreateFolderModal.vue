@@ -1,6 +1,6 @@
 <script setup>
 //IMPORTS
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import Modal from "../Modal.vue";
 import SecondaryButton from '../SecondaryButton.vue'
 import PrimaryButton from '../PrimaryButton.vue'
@@ -12,7 +12,10 @@ import { nextTick, ref } from "vue";
 //USES
 const form = useForm({
     name: "",
+    parent_id: null,
 });
+
+const page = usePage();
 
 //REFS
 const folderNameInput = ref(null);
@@ -26,6 +29,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 //METHODS
 const createFolder = () => {
+    form.parent_id = page.props.folder.id;
     form.post(route("folder.create"), {
         preserveScroll: true,
         onSuccess: () => {
