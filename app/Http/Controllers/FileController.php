@@ -25,8 +25,12 @@ class FileController extends Controller
             ->orderBy('is_folder', 'desc')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
         $files = FileResource::collection($files);
-        return Inertia::render('MyFiles', compact('files', 'folder'));
+        $ancestors = FileResource::collection([...$folder->ancestors, $folder]);
+        $folder = new FileResource($folder);
+
+        return Inertia::render('MyFiles', compact('files', 'ancestors', 'folder'));
     }
 
     public function createFolder(StoreFolderRequest $request)

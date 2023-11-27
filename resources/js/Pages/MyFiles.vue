@@ -2,34 +2,39 @@
 //IMPORTS
 import { onMounted, ref } from "vue";
 import AuthenticatedLayout from "../Layouts/AuthenticatedLayout.vue";
+import Breadcrumbs from "../Components/app/Breadcrumbs.vue";
 import { computed } from "@vue/reactivity";
 import { router } from "@inertiajs/core";
+import { Link } from "@inertiajs/vue3";
 
 //PROPS AND EMITS
 //from the controller
 const props = defineProps({
     files: Object,
+    ancestors: Object,
+    folder: Object,
 });
 
 //COMPUTED
 const allFiles = computed(() => {
     return {
         data: props.files.data,
-        next: props.files.links.next
-    }
+        next: props.files.links.next,
+    };
 });
 
 //METHODS
 const openFolder = (file) => {
-    if(!file.is_folder) return;
+    if (!file.is_folder) return;
 
-    router.visit(route('myFiles', {folder: file.path}))
+    router.visit(route("myFiles", { folder: file.path }));
 };
-
 </script>
 
 <template>
     <AuthenticatedLayout>
+        <Breadcrumbs :folders="ancestors.data" class="my-5"/>
+
         <div class="flex-1 overflow-auto">
             <table class="min-w-full">
                 <thead class="bg-gray-100 border-b">
@@ -95,11 +100,15 @@ const openFolder = (file) => {
                         </td>
                     </tr>
                     <tr v-if="allFiles.data.length === 0">
-                        <td colspan="5" class="text-center py-3 font-semibold text-gray-500">This folder is empty</td>
+                        <td
+                            colspan="5"
+                            class="text-center py-3 font-semibold text-gray-500"
+                        >
+                            This folder is empty
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
     </AuthenticatedLayout>
 </template>
