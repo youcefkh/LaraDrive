@@ -8,12 +8,11 @@ import { useForm, usePage } from "@inertiajs/vue3";
 
 //USES
 const page = usePage();
-const uploadFilesForm = useForm(
-    {
-        files: [],
-        parent_id: null,
-    }
-)
+const uploadFilesForm = useForm({
+    files: [],
+    relative_paths: [],
+    parent_id: null,
+});
 
 //REFS
 const isDragOver = ref(false);
@@ -22,7 +21,7 @@ const isDragOver = ref(false);
 const handDrop = (e) => {
     isDragOver.value = false;
     const files = e.dataTransfer.files;
-    uploadFiles(files)
+    uploadFiles(files);
 };
 const handDragOver = (e) => {
     const draggable = e.dataTransfer.types;
@@ -34,6 +33,9 @@ const handDragLeave = (e) => {
 
 const uploadFiles = (files) => {
     uploadFilesForm.files = files;
+    uploadFilesForm.relative_paths = [...files].map(
+        (file) => file.webkitRelativePath,
+    );
     uploadFilesForm.parent_id = page.props.folder.id;
     uploadFilesForm.post(route("file.store"));
 };
@@ -45,29 +47,29 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="h-screen bg-gray-50 flex w-full gap-4">
+    <div class="flex h-screen w-full gap-4 bg-gray-50">
         <Navigation />
 
-        <main class="flex flex-col flex-1 px-4 overflow-hidden">
-            <div class="flex items-center justify-between w-full">
+        <main class="flex flex-1 flex-col overflow-hidden px-4">
+            <div class="flex w-full items-center justify-between">
                 <SearchForm />
                 <UserSettingsDropdown />
             </div>
 
             <div
-                class="flex flex-1 flex-col overflow-hidden mt-8"
+                class="mt-8 flex flex-1 flex-col overflow-hidden"
                 @drop.prevent="handDrop"
                 @dragover.prevent="handDragOver"
                 @dragleave.prevent="handDragLeave"
             >
-                <div 
+                <div
                     v-if="isDragOver"
-                    class="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                    class="flex h-32 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none"
                 >
                     <span class="flex items-center space-x-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            class="w-6 h-6 text-gray-600"
+                            class="h-6 w-6 text-gray-600"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"

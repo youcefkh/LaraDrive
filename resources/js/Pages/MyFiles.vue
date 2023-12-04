@@ -1,6 +1,7 @@
 <script setup>
 //IMPORTS
 import { onMounted, ref } from "vue";
+import { FolderIcon } from "@heroicons/vue/24/outline";
 import AuthenticatedLayout from "../Layouts/AuthenticatedLayout.vue";
 import Breadcrumbs from "../Components/app/Breadcrumbs.vue";
 import { computed } from "@vue/reactivity";
@@ -47,11 +48,6 @@ const openFolder = (file) => {
                         <th
                             class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                         >
-                            Path
-                        </th>
-                        <th
-                            class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                        >
                             Owner
                         </th>
                         <th
@@ -74,14 +70,10 @@ const openFolder = (file) => {
                         class="border-b transition duration-300 ease-in-out hover:bg-blue-100 cursor-pointer"
                     >
                         <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center"
+                            class="flex items-center gap-2 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 flex items-center"
                         >
+                            <FolderIcon class="h-5 w-5" v-if="file.is_folder" />
                             {{ file.name }}
-                        </td>
-                        <td
-                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                        >
-                            {{ file.path }}
                         </td>
                         <td
                             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"

@@ -23,26 +23,8 @@
                     </MenuItem>
                 </div>
                 <div class="px-1 py-1">
-                    <MenuItem>
-                        <button
-                            class="flex gap-2 items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-indigo-50 hover:border-indigo-100 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                        >
-                        <FolderIcon
-                                class="h-5 w-5"
-                                aria-hidden="true"
-                            /> Upload Folder
-                        </button>
-                    </MenuItem>
-                    <MenuItem>
-                        <button
-                            class="flex gap-2 items-center w-full ps-3 pe-4 py-2 border-l-4 border-transparent text-start text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-indigo-50 hover:border-indigo-100 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                        >
-                        <DocumentIcon
-                                class="h-5 w-5"
-                                aria-hidden="true"
-                            /> Upload Files
-                        </button>
-                    </MenuItem>
+                    <FolderUploadMenuItem />
+                    <FileUploadMenuItem />
                 </div>
             </template>
         </Dropdown>
@@ -53,17 +35,19 @@
 </template>
 
 <script setup>
-//imports
+//IMPORTS
 import { MenuItem } from "@headlessui/vue";
-import { DocumentIcon, FolderIcon, FolderPlusIcon, PlusCircleIcon } from "@heroicons/vue/24/outline";
+import { FolderPlusIcon, PlusCircleIcon } from "@heroicons/vue/24/outline";
+import { ref } from "vue";
 import Dropdown from "../Dropdown.vue";
 import CreateFolderModal from "./CreateFolderModal.vue";
-import { ref } from "vue";
+import FileUploadMenuItem from './FileUploadMenuItem.vue'
+import FolderUploadMenuItem from './FolderUploadMenuItem.vue'
 
-//refs
+//REFS
 const showModal = ref(false);
 
-//methods
+//METHODS
 const showCreateFolderModal = () => {
     showModal.value = true;
 };
